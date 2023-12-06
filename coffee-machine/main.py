@@ -29,20 +29,21 @@ resources = {
     "milk": 200,
     "coffee": 100,
 }
-
+bank=0
 
 def prompt():
     """Prompte user by asking"""
     while True:
         choise = input("What would you like? (espresso/latte/cappuccino):").casefold()
-        if choise == "espresso" or choise ==  "latte" or choise == "cappuccino":
+        if choise == "espresso" or choise ==  "latte" or choise == "cappuccino" or choise == "offe":
             return choise
 
 # TODO: Turn off the Coffee Machine by entering “off” to the prompt.
 # TODO: Print report. when asked. List current resources values left.
+print("Water: {water}ml\nMilk: {milk}ml\nCoffee: {coffee}g\nMoney: {money}".format(water=resources["water"], milk=resources["milk"], coffee=resources["coffee"], money=bank))
 # TODO: Check resources sufficient?
 # TODO: Process coins.
 # TODO: Check transaction successful?
 # TODO: Make Coffee - If the transaction is successful and there are enough resources to make the drink the user selected, then the ingredients to make the drink should be deducted from the coffee machine resources.2
 
-prompt()
+#prompt()
