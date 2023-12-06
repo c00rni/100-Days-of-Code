@@ -7,6 +7,7 @@ class CoffeeMachine:
             "milk": 200,
             "coffee": 100,
         }
+        COIN_TYPES = {"quarters":0.25, "dimes":0.1, "nickles":0.05, "pennies":0.01}
         self.MENU = {
             "espresso": {
                 "ingredients": {
@@ -59,23 +60,43 @@ class CoffeeMachine:
                 return True
             else:
                 return False
+        
+        def insertCoins():
+            """Process coins."""
+            user_deposit = 0
+            for coin_type, coin_value in COIN_TYPES.items():
+                coin_quantity = input("Insert {}: ".format(coin_type))
+                user_deposit += float(coin_quantity)*coin_value
+            return user_deposit
+        
+        def checkSucceffulTransaction(drink, user_deposit):
+            """Check transaction successful"""
+
+            if user_deposit >= self.MENU[drink]["cost"]:
+                change = user_deposit - self.MENU[drink]["cost"]
+                self.bank += self.MENU[drink]["cost"]
+                print("Here is ${change} dollars in change.".format(change=change))
+
+            for key in self.MENU[drink]["ingredients"].keys():
+                self.resources[key] -= self.MENU[drink]["ingredients"][key]
+            print("Here is your latte. Enjoy!")
+
 
         def main():
-            drink = prompt()
-            for (key, value) in self.MENU[drink]["ingredients"].items():
-                if not checkResources(key, value):
-                    print("Sorry there is not enough {}".format(key))
-                    break
-            
+            while True:
+                can_serve = True 
+                drink = prompt()
+                for (key, value) in self.MENU[drink]["ingredients"].items():
+                    if not checkResources(key, value):
+                        print("Sorry there is not enough {}".format(key))
+                        can_serve = False
+                        break
+                if can_serve:
+                    checkSucceffulTransaction(drink, insertCoins())
+
 
         if __name__ == '__main__':
             main()
 
 
 CoffeeMachine()
-
-# TODO: Process coins.
-# TODO: Check transaction successful?
-# TODO: Make Coffee - If the transaction is successful and there are enough resources to make the drink the user selected, then the ingredients to make the drink should be deducted from the coffee machine resources.2
-
-#prompt()
