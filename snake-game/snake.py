@@ -19,6 +19,14 @@ class Snake:
             self._snack_body.append(snake_seg)
         self.head = self._snack_body[0]
 
+    def growTail(self):
+        snake_seg = Turtle()
+        snake_seg.shapesize(stretch_wid=1, stretch_len=1)
+        snake_seg.shape("square")
+        snake_seg.color("white")
+        snake_seg.penup()
+        self._snack_body.append(snake_seg)
+
 
     def move(self):
         for seg_num in range(len(self._snack_body) - 1, 0, -1):
@@ -42,4 +50,7 @@ class Snake:
     def right(self):
         if self.head.heading() != LEFT:
             self.head.setheading(RIGHT)
+
+    def getSnakeBody(self):
+        return self._snack_body
         

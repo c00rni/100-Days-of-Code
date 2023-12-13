@@ -22,4 +22,9 @@ class ScoreBoard(Turtle):
     def updateScoreBoard(self):
         self.write(f"Score = {self._score}", move=True, align="center", font=('Open Sans', 12, 'normal'))
 
+    def gameOver(self):
+        self.clear()
+        self.goto(0,0)
+        self.write(f"GAME OVER!", move=True, align="center", font=('Open Sans', 12, 'normal'))
+
 
