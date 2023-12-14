@@ -11,13 +11,12 @@ class Ball(Turtle):
         self.color("white")
         self.penup()
         self.speed("fastest")
-        self.x_move = 20 * random.randrange(10)
-        self.y_move = 20 * random.randrange(-10, 10)
+        self.launch()
     
     def move(self):
         self.setposition(self.xcor() + self.x_move, self.ycor() + self.y_move)
     
     def launch(self):
         self.home()
-        self.x_move = random.randrange(20)
-        self.y_move = random.randrange(20)
+        self.x_move = 10 if random.randrange(2) else -10
+        self.y_move = 10 if random.randrange(2) else -10
