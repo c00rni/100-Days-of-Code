@@ -1,5 +1,7 @@
 from turtle import Screen
 from player import Player
+from ball import Ball
+import time
 
 class PongGame:
 
@@ -16,12 +18,15 @@ class PongGame:
         self._player2 = Player(550)
         self._screen.onkey(self._player2.up, "w")
         self._screen.onkey(self._player2.down, "s")
+        self._ball = Ball()
         self._screen.listen()
 
     def launch(self):
         self._game_on = True
         while self._game_on:
+            self._ball.move()
             self._screen.update()
+            time.sleep(0.1)
 
     def __del__(self):
         self._screen.mainloop()
