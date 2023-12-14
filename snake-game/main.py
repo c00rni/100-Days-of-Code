@@ -37,9 +37,7 @@ while game_is_on:
         snack.head.setx(-snack.head.position()[0])
     if snack.head.position()[1] > 300 or snack.head.position()[1] < -300:
         snack.head.sety(-snack.head.position()[1])
-    for segment in snack.getSnakeBody():
-        if segment == snack.head:
-            continue
+    for segment in snack.getSnakeBody()[1:]:
         if snack.head.distance(segment) < 10:
             game_is_on = False
 
