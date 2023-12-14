@@ -1,6 +1,7 @@
 from turtle import Screen
 from player import Player
 from ball import Ball
+from scoreboard import ScoreBoard
 import time
 
 class PongGame:
@@ -19,7 +20,9 @@ class PongGame:
         self._screen.onkey(self._player2.up, "w")
         self._screen.onkey(self._player2.down, "s")
         self._ball = Ball()
+        self.score = ScoreBoard()
         self._screen.listen()
+        self._game_speed = 0.1
 
     def launch(self):
         self._game_on = True
@@ -27,7 +30,7 @@ class PongGame:
             self._collision()
             self._ball.move()
             self._screen.update()
-            time.sleep(0.1)
+            time.sleep(self._game_speed)
     
     def _collision(self):
         yBallPos = self._ball.position()[1]
@@ -35,10 +38,24 @@ class PongGame:
         for block in self._player1.getPaddle() + self._player2.getPaddle():
             if block.distance(self._ball) < 20:
                 self._ball.x_move *= -1
+                self.increaseGameSpeed()
         if yBallPos > 380 or yBallPos < -380:
             self._ball.y_move *= -1
-        if xBallPos > 550 or xBallPos < -550:
-            self._game_on = False
+        if xBallPos > 550:
+            self.score.increaseScore(0)
+            self._ball.launch()
+            self.resetGameSpeed()
+        if xBallPos < -550:
+            self.score.increaseScore(1)
+            self._ball.launch()
+            self.resetGameSpeed()
+
+    def increaseGameSpeed(self):
+        self._game_speed *=0.8
+
+    def resetGameSpeed(self):
+        self._game_speed = 0.1
+
         
     def __del__(self):
         self._screen.mainloop()
