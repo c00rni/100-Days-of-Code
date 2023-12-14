@@ -24,10 +24,22 @@ class PongGame:
     def launch(self):
         self._game_on = True
         while self._game_on:
+            self._collision()
             self._ball.move()
             self._screen.update()
             time.sleep(0.1)
-
+    
+    def _collision(self):
+        yBallPos = self._ball.position()[1]
+        xBallPos = self._ball.position()[0]
+        for block in self._player1.getPaddle() + self._player2.getPaddle():
+            if block.distance(self._ball) < 20:
+                self._ball.x_move *= -1
+        if yBallPos > 380 or yBallPos < -380:
+            self._ball.y_move *= -1
+        if xBallPos > 550 or xBallPos < -550:
+            self._game_on = False
+        
     def __del__(self):
         self._screen.mainloop()
 
