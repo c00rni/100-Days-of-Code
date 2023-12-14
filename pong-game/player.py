@@ -4,7 +4,7 @@ MOVE_DISTANCE = 20
 
 class Player:
 
-    def __init__(self, paddle_lenght=4) -> None:
+    def __init__(self, x_position, paddle_lenght=4) -> None:
         self.paddle = []
 
         for i in range(paddle_lenght):
@@ -12,11 +12,8 @@ class Player:
             block.color("white")
             block.penup()
             block.speed("fastest")
-            block.goto(x=0, y=MOVE_DISTANCE*i)
+            block.goto(x=x_position, y=MOVE_DISTANCE*i)
             self.paddle.append(block)
-
-    def move(self):
-        pass
 
     def up(self):
         for block in self.paddle:

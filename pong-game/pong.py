@@ -7,12 +7,15 @@ class PongGame:
         self._screen = Screen()
         self._screen.bgcolor("Black")
         self._screen.tracer(0)
-        self._screen.setup(width=1200, height=900)
+        self._screen.setup(width=1200, height=800)
         self._screen.title("Pong Game")
         self._game_on = False
-        self._player1 = Player()
+        self._player1 = Player(-550)
         self._screen.onkey(self._player1.up, "Up")
         self._screen.onkey(self._player1.down, "Down")
+        self._player2 = Player(550)
+        self._screen.onkey(self._player2.up, "w")
+        self._screen.onkey(self._player2.down, "s")
         self._screen.listen()
 
     def launch(self):
