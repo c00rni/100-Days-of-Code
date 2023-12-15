@@ -10,6 +10,10 @@ class CrossingGame:
         self._screen = Screen()  
         self._screen.setup(width=600, height=600)
         self._screen.tracer(0)
+        self._screen.title("Crossing Turtle Game")
+        self._player = Player()
+        self._screen.onkey(self._player.move, "Up")
+        self._screen.listen()
     
     def run(self):
         self._game_is_on = True
