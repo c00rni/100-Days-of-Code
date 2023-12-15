@@ -15,7 +15,7 @@ class Scoreboard(Turtle):
 
     def increaseScore(self):
         self._score += 1
-        self.setx(-280)
+        self.goto(-210,250)
         self.clear()
         self.updateScoreBoard()
 

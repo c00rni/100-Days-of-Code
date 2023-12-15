@@ -7,15 +7,24 @@ FINISH_LINE_Y = 280
 
 class Player(Turtle):
 
-    def __init__(self, shape: str = "turtle", undobuffersize: int = 1000, visible: bool = True) -> None:
+    def __init__(self, game, shape: str = "turtle", undobuffersize: int = 1000, visible: bool = True) -> None:
         super().__init__(shape, undobuffersize, visible)
         self.penup()
         self.setheading(90)
-        self.setpos(STARTING_POSITION)
+        self.resetStart()
+        self._game = game
 
     def move(self):
         self.fd(MOVE_DISTANCE)
+        self.hasFinished()
 
+    def hasFinished(self):
+        if self.ycor() >= FINISH_LINE_Y:
+            self.resetStart()
+            self._game.increaseLevel()
+
+    def resetStart(self):
+        self.setpos(STARTING_POSITION)
 
 
     

@@ -11,7 +11,7 @@ class CrossingGame:
         self._screen.setup(width=600, height=600)
         self._screen.tracer(0)
         self._screen.title("Crossing Turtle Game")
-        self._player = Player()
+        self._player = Player(game=self)
         self._screen.onkey(self._player.move, "Up")
         self._screen.listen()
         self._car_manager = CarManager()
@@ -24,6 +24,9 @@ class CrossingGame:
             self._screen.update()
             self._car_manager.move()
             self._car_manager.generate()
+
+    def increaseLevel(self):
+        self._scoreboard.increaseScore()
 
     def __del__(self):
         self._screen.mainloop()

@@ -39,6 +39,6 @@ class CarManager:
         if random.randrange(10) == 0:
             car = self.Car(random.randrange(-250,280))
             self._cars.append(car)
-
-
     
+    def increaseSpeed(self):
+        self._speed += MOVE_INCREMENT
