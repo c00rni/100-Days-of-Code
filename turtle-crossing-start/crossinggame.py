@@ -22,6 +22,7 @@ class CrossingGame:
             time.sleep(0.1)
             self._screen.update()
             self._car_manager.move()
+            self._car_manager.generate()
 
     def __del__(self):
         self._screen.mainloop()
