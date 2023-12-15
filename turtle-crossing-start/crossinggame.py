@@ -14,12 +14,14 @@ class CrossingGame:
         self._player = Player()
         self._screen.onkey(self._player.move, "Up")
         self._screen.listen()
+        self._car_manager = CarManager()
     
     def run(self):
         self._game_is_on = True
         while self._game_is_on:
             time.sleep(0.1)
             self._screen.update()
+            self._car_manager.move()
 
     def __del__(self):
         self._screen.mainloop()
