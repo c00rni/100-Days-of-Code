@@ -21,12 +21,18 @@ class CrossingGame:
         self._game_is_on = True
         while self._game_is_on:
             time.sleep(0.1)
+            self._checkCollision()
             self._screen.update()
             self._car_manager.move()
             self._car_manager.generate()
+            time.sleep(0.1)
+        self._screen.mainloop()
 
     def increaseLevel(self):
+        self._car_manager.increaseSpeed()
         self._scoreboard.increaseScore()
 
-    def __del__(self):
-        self._screen.mainloop()
+    def _checkCollision(self):
+        if self._car_manager.checkCollision(self._player):
+            self._game_is_on = False
+            self._scoreboard.gameOver()
