@@ -15,6 +15,7 @@ class CrossingGame:
         self._screen.onkey(self._player.move, "Up")
         self._screen.listen()
         self._car_manager = CarManager()
+        self._scoreboard = Scoreboard()
     
     def run(self):
         self._game_is_on = True
