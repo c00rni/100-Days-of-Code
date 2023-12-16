@@ -27,6 +27,22 @@ class Snake:
         snake_seg.penup()
         self._snack_body.append(snake_seg)
 
+    def gameReset(self):
+        for snake_seg in self._snack_body:
+            snake_seg.clear()
+            snake_seg.hideturtle()
+        self._snack_body = []
+        for i in range(3):
+            snake_seg = Turtle()
+            snake_seg.shapesize(stretch_wid=1, stretch_len=1)
+            snake_seg.shape("square")
+            snake_seg.color("white")
+            snake_seg.penup()
+            snake_seg.goto(x=-MOVE_DISTANCE*i,y=0)
+            self._snack_body.append(snake_seg)
+        self.head = self._snack_body[0]
+
+
 
     def move(self):
         for seg_num in range(len(self._snack_body) - 1, 0, -1):

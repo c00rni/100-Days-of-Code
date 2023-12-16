@@ -39,9 +39,10 @@ while game_is_on:
         snack.head.sety(-snack.head.position()[1])
     for segment in snack.getSnakeBody()[1:]:
         if snack.head.distance(segment) < 10:
-            game_is_on = False
+            snack.gameReset()
+            score.gameReset()
 
-score.gameOver()
+
 screen.update()
 
 
