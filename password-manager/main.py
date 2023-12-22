@@ -1,12 +1,22 @@
-# ---------------------------- PASSWORD GENERATOR #------------------------------- #
+import random
+from tkinter import *
+BASE_SIZE = 40
+
+
+# ---------------------------- PASSWORD GENERATOR 
+
+def generatePassword(password_lenght = 14):
+    letter_space = "QWERTZUIOPASDFGHJKLYXCVBNMqwertzuiopasdfghjklyxcvbnm0123456789*%+&@#=?^<>\,;.:-_[]!"
+    password = []
+    for _ in password_lenght:
+        password.append(random.choice(list(letter_space)))
+    print("".join(password))
+
+#------------------------------- #
 
 # ---------------------------- SAVE PASSWORD #------------------------------- #
 
 # ---------------------------- UI SETUP 
-
-from tkinter import *
-
-BASE_SIZE = 40
 
 root = Tk()
 root.config(highlightthickness=0, padx=50, pady=40)
@@ -47,7 +57,7 @@ password_input = Entry(width=BASE_SIZE // 2 -1)
 password_input.grid(column=1, row=3)
 
 # generator_button
-generator_button = Button(text="Generate Password", width=BASE_SIZE // 2 -1)
+generator_button = Button(text="Generate Password", width=BASE_SIZE // 2 -1, command=generatePassword)
 generator_button.grid(column=2, row=3)
 
 # add_button "Add"
