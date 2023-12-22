@@ -8,9 +8,13 @@ BASE_SIZE = 40
 def generatePassword(password_lenght = 14):
     letter_space = "QWERTZUIOPASDFGHJKLYXCVBNMqwertzuiopasdfghjklyxcvbnm0123456789*%+&@#=?^<>\,;.:-_[]!"
     password = []
-    for _ in password_lenght:
+    for _ in range(password_lenght):
         password.append(random.choice(list(letter_space)))
-    print("".join(password))
+    password = "".join(password)
+    password_input.delete(0, END)
+    password_input.insert(0, password)
+    root.clipboard_clear()
+    root.clipboard_append(password)
 
 #------------------------------- #
 
