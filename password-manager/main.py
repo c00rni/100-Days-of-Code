@@ -18,13 +18,20 @@ def generatePassword(password_lenght = 14):
 
 #------------------------------- #
 
-# ---------------------------- SAVE PASSWORD #------------------------------- #
+# ---------------------------- SAVE PASSWORD 
+    
+def saveData():
+    # f"{site_input.get()} | {user_name_input.get()} | {password_input.get()}"
+    with open("data.txt", "a") as data_file:
+        data_file.write(f"{site_input.get()} | {user_name_input.get()} | {password_input.get()}\n")
+
+
+#------------------------------- #
 
 # ---------------------------- UI SETUP 
 
 root = Tk()
 root.config(highlightthickness=0, padx=50, pady=40)
-print(root.configure().keys())
 
 # Title = Password Mnager
 root.title("Password Manager")
@@ -65,8 +72,10 @@ generator_button = Button(text="Generate Password", width=BASE_SIZE // 2 -1, com
 generator_button.grid(column=2, row=3)
 
 # add_button "Add"
-generator_button = Button(text="Generate Password", width=BASE_SIZE)
+generator_button = Button(text="Add", width=BASE_SIZE, command=saveData)
 generator_button.grid(column=1, row=4, columnspan = 2)
+
+print(user_name_input.configure().keys())
 
 root.mainloop()
 
