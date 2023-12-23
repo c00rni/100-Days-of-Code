@@ -1,6 +1,7 @@
 import random
 import json
 from tkinter import *
+from tkinter import messagebox 
 BASE_SIZE = 40
 
 
@@ -22,34 +23,38 @@ def generatePassword(password_lenght = 14):
 # ---------------------------- SAVE PASSWORD 
     
 def saveData():
-
     site = site_input.get()
     username = user_name_input.get()
     password = password_input.get()
 
-    new_entry = {
-        f"{site}":{
-            "username": username,
-            "password": password
-        }
-    }
- 
-    saved_data = {} 
-    try:
-        with open("data.json", "r") as data_file:
-            saved_data = json.load(data_file)
-    except Exception as e:
-        pass
+    if len(site) == 0 or len(password) == 0:
+        messagebox.showinfo(title="Oops", message="Please make sure you haven't left any fiels empty")
+    else:
+        is_ok = messagebox.askokcancel(title=site,message=f"These are the details entered: \n\nEmail: {username}\nPassword: {password} \n\nIs it ok to save?")
+        if is_ok:
+            new_entry = {
+                f"{site}":{
+                    "username": username,
+                    "password": password
+                }
+            }
+        
+            saved_data = {} 
+            try:
+                with open("data.json", "r") as data_file:
+                    saved_data = json.load(data_file)
+            except Exception as e:
+                pass
 
-    saved_data.update(new_entry)
-    with open("data.json", "w") as data_file:
-        json.dump(saved_data, data_file, indent=4)
-
+            saved_data.update(new_entry)
+            with open("data.json", "w") as data_file:
+                json.dump(saved_data, data_file, indent=4)
 
 #------------------------------- #
 
 
 def search():
+
     pass
 
 
