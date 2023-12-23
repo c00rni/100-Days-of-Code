@@ -1,4 +1,5 @@
 import random
+import json
 from tkinter import *
 BASE_SIZE = 40
 
@@ -21,9 +22,28 @@ def generatePassword(password_lenght = 14):
 # ---------------------------- SAVE PASSWORD 
     
 def saveData():
-    # f"{site_input.get()} | {user_name_input.get()} | {password_input.get()}"
-    with open("data.txt", "a") as data_file:
-        data_file.write(f"{site_input.get()} | {user_name_input.get()} | {password_input.get()}\n")
+
+    site = site_input.get()
+    username = user_name_input.get()
+    password = password_input.get()
+
+    new_entry = {
+        f"{site}":{
+            "username": username,
+            "password": password
+        }
+    }
+ 
+    saved_data = {} 
+    try:
+        with open("data.json", "r") as data_file:
+            saved_data = json.load(data_file)
+    except Exception as e:
+        pass
+
+    saved_data.update(new_entry)
+    with open("data.json", "w") as data_file:
+        json.dump(saved_data, data_file, indent=4)
 
 
 #------------------------------- #
@@ -84,7 +104,7 @@ generator_button.grid(column=2, row=3)
 generator_button = Button(text="Add", width=BASE_SIZE, command=saveData)
 generator_button.grid(column=1, row=4, columnspan = 2)
 
-print(user_name_input.configure().keys())
+#print(user_name_input.configure().keys())
 
 root.mainloop()
 
