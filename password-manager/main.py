@@ -55,7 +55,22 @@ def saveData():
 
 def search():
 
-    pass
+    website = site_input.get()
+    if not website:
+        messagebox.showinfo(title="Oops", message="Please make sure you haven't left the website field empty")
+    else:
+        saved_data = {} 
+        try:
+            with open("data.json", "r") as data_file:
+                saved_data = json.load(data_file)
+            saved_sites = list(saved_data.keys())
+            if website in saved_sites:
+                messagebox.showinfo(title=f"{website}", message=f"Email: {saved_data[website]['username']}\nPassword: {saved_data[website]['password']}")
+            else:
+                messagebox.showwarning(title="Not found", message=f"The website '{website}' haven't been found in the database.")
+        except Exception as e:
+            print(e)
+            messagebox.showwarning(title="Not found", message=f"The website '{website}' haven't been found in the database.")
 
 
 # ---------------------------- UI SETUP 
