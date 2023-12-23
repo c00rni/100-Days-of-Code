@@ -28,6 +28,11 @@ def saveData():
 
 #------------------------------- #
 
+
+def search():
+    pass
+
+
 # ---------------------------- UI SETUP 
 
 root = Tk()
@@ -48,8 +53,12 @@ site_label = Label(text="Website:")
 site_label.grid(column=0, row=1)
 
 # site_input
-site_input = Entry(width=BASE_SIZE)
-site_input.grid(column=1, row=1, columnspan = 2)
+site_input = Entry(width=BASE_SIZE // 2)
+site_input.grid(column=1, row=1)
+
+# search_button
+search_button = Button(text="Search", width=BASE_SIZE // 2, command=search)
+search_button.grid(column=2, row=1)
 
 # user_name_label "Email/Username:"
 user_name_label = Label(text="Email/Username:")
@@ -64,11 +73,11 @@ password_label = Label(text="Password:")
 password_label.grid(column=0, row=3)
 
 # password_input
-password_input = Entry(width=BASE_SIZE // 2 -1)
+password_input = Entry(width=BASE_SIZE // 2)
 password_input.grid(column=1, row=3)
 
 # generator_button
-generator_button = Button(text="Generate Password", width=BASE_SIZE // 2 -1, command=generatePassword)
+generator_button = Button(text="Generate Password", width=BASE_SIZE // 2, command=generatePassword)
 generator_button.grid(column=2, row=3)
 
 # add_button "Add"
