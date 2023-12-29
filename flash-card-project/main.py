@@ -9,23 +9,29 @@ FONT_NAME = "Ariel"
 csv_dataframe = pd.read_csv("data/french_words.csv")
 initial_data = csv_dataframe.sample()
 
-
 def wrong():
-    global initial_data
+    global initial_data, flip_timer
+    window.after_cancel(flip_timer)
     canvas.itemconfig(card, image=verso_card_img)
     initial_data = csv_dataframe.sample()
     canvas.itemconfig(title, text="French", fill="black")
     canvas.itemconfig(text, text=initial_data.values[0][0], fill="black")
-    window.after(3000, func=flipCard)
+    flip_timer = window.after(3000, func=flipCard)
     
 
 def right():
-    global initial_data
+    global initial_data, csv_dataframe, flip_timer
+
+    window.after_cancel(flip_timer)
     canvas.itemconfig(card, image=verso_card_img)
-    initial_data = csv_dataframe.sample()
-    canvas.itemconfig(title, text="French", fill="black")
-    canvas.itemconfig(text, text=initial_data.values[0][0], fill="black")
-    window.after(3000, func=flipCard)
+    csv_dataframe = csv_dataframe.drop([initial_data.index[0]])
+    if len(csv_dataframe.index) == 0:
+        canvas.itemconfig(text, text="End of the game", fill="black")
+    else:
+        initial_data = csv_dataframe.sample()
+        canvas.itemconfig(title, text="French", fill="black")
+        canvas.itemconfig(text, text=initial_data.values[0][0], fill="black")
+        flip_timer = window.after(3000, func=flipCard)
 
 
 def flipCard():
@@ -36,7 +42,7 @@ def flipCard():
 window = Tk()
 window.title("Flashy Cards")
 window.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
-window.after(3000, func=flipCard)
+flip_timer = window.after(3000, func=flipCard)
 
 canvas = Canvas(width=800, height=526, bg=BACKGROUND_COLOR, highlightthickness=0)
 
@@ -46,7 +52,7 @@ card = canvas.create_image(400, 263, image=verso_card_img)
 canvas.grid(column=0, row=0, columnspan = 2)
 
 title = canvas.create_text(400, 130, text="French", font=(FONT_NAME, 25, "italic"))
-text = canvas.create_text(400, 263, text="data", font=(FONT_NAME, 35, "bold"))
+text = canvas.create_text(400, 263, text=initial_data.values[0][0], font=(FONT_NAME, 35, "bold"))
 
 
 unknow_img = PhotoImage(file="images/wrong.png")
