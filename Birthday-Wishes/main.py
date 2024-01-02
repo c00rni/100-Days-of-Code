@@ -13,6 +13,7 @@ import datetime as dt
 from email.mime.text import MIMEText
 from dotenv import load_dotenv
 import os
+import random
 
 load_dotenv("../.env")
 
@@ -21,7 +22,6 @@ GMAIL_PASSWORD = os.environ.get("GMAIL_PASSWORD")
 
 
 subject = "[TEST] Antony python"
-body = "Hello sir !"
 sender = GMAIL_ADDRESS
 recipients = ["gmigan.a@gmail.com"]
 password = GMAIL_PASSWORD
@@ -41,6 +41,9 @@ def send_email(subject, body, sender, recipients, password):
 def dayChecker(year=None, month=None, day=None):
     today = dt.datetime.today()
     if today.year == year and today.month == month and today.day == day:
+        with open("quotes.txt","r") as quote_file:
+            body = f"Hello sir ! \n\n{random.choice(quote_file.readlines())}"
         send_email(subject, body, sender, recipients, password)
     
+dayChecker(2024, 1, 3)
 dayChecker(2024, 1, 2)
