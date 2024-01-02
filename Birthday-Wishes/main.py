@@ -14,6 +14,7 @@ from email.mime.text import MIMEText
 from dotenv import load_dotenv
 import os
 import random
+import pandas as pd
 
 load_dotenv("../.env")
 
@@ -38,12 +39,12 @@ def send_email(subject, body, sender, recipients, password):
     print("Message sent!")
 
 
-def dayChecker(year=None, month=None, day=None):
+def dayChecker():
     today = dt.datetime.today()
-    if today.year == year and today.month == month and today.day == day:
-        with open("quotes.txt","r") as quote_file:
-            body = f"Hello sir ! \n\n{random.choice(quote_file.readlines())}"
-        send_email(subject, body, sender, recipients, password)
+    birthdays_dataframe = pd.read_csv("birthdays.csv")
+    birthdays_selection = birthdays_dataframe[(birthdays_dataframe.month == today.month) & (birthdays_dataframe.day == today.day)].to_dict('records')
+    for row in birthdays_selection:
+        print(row)
+        #send_email(subject, body, sender, recipients, password)
     
-dayChecker(2024, 1, 3)
-dayChecker(2024, 1, 2)
+dayChecker()
