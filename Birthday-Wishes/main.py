@@ -1,13 +1,3 @@
-# TODO: Send a mail with python
-# send a mail a specific date with datetime module
-# send a motivation quote on mondays
-# list birthdays in a csv file
-# Automate a birthday wisher 
-# Run the script on the cloud pythonanywhere.com
-
-
-# smtp.gmail.com
-
 import smtplib
 import datetime as dt
 from email.mime.text import MIMEText
@@ -20,11 +10,11 @@ load_dotenv("../.env")
 
 GMAIL_ADDRESS = os.environ.get("GMAIL_ADDRESS")
 GMAIL_PASSWORD = os.environ.get("GMAIL_PASSWORD")
+BIRTHDAY_MAIL_SUBJECT = os.environ.get("BIRTHDAY_MAIL_SUBJECT")
 
 
-subject = "[TEST] Antony python"
+subject = BIRTHDAY_MAIL_SUBJECT
 sender = GMAIL_ADDRESS
-recipients = ["gmigan.a@gmail.com"]
 password = GMAIL_PASSWORD
 
 
@@ -47,8 +37,8 @@ def dayChecker():
         with open(f"letters/{random.choice(os.listdir('letters'))}") as base_letter_file:
             base_letter = base_letter_file.read()
             personalies_letter = base_letter.replace("[name]", row['name'])
-            personalies_letter = base_letter.replace("[relationship]", row['relationship'])
-            personalies_letter = base_letter.replace("[nickname]", row['nickname'])
+            personalies_letter = personalies_letter.replace("[relationship]", row['relationship'])
+            personalies_letter = personalies_letter.replace("[nickname]", row['nickname'])
             send_email(subject, personalies_letter, sender, row['email'], password)
     
 dayChecker()
