@@ -1,4 +1,6 @@
 *.pyc
 *.pyo
 .env
+
 Birthday-Wishes/birthdays.csv
+Birthday-Wishes/letters/*

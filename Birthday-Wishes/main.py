@@ -44,7 +44,11 @@ def dayChecker():
     birthdays_dataframe = pd.read_csv("birthdays.csv")
     birthdays_selection = birthdays_dataframe[(birthdays_dataframe.month == today.month) & (birthdays_dataframe.day == today.day)].to_dict('records')
     for row in birthdays_selection:
-        print(row)
-        #send_email(subject, body, sender, recipients, password)
+        with open(f"letters/{random.choice(os.listdir('letters'))}") as base_letter_file:
+            base_letter = base_letter_file.read()
+            personalies_letter = base_letter.replace("[name]", row['name'])
+            personalies_letter = base_letter.replace("[relationship]", row['relationship'])
+            personalies_letter = base_letter.replace("[nickname]", row['nickname'])
+            send_email(subject, personalies_letter, sender, row['email'], password)
     
 dayChecker()
