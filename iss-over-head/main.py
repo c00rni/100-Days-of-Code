@@ -24,6 +24,6 @@ tracker = ISSTracker(IPSTACK_API_KEY, CLAUSE_DISTANCE)
 while True:
     if tracker.isISSVisible():
         mail_manager.send_email("[ISS-Over-Head] ISS is visible",TEXT,[GMAIL_ADDRESS])
-        sleep(1000*60*30)
+        sleep(60*30)
     else:
-        sleep(1000*60*5)
+        sleep(60*5)
