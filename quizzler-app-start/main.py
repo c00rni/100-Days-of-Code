@@ -1,9 +1,11 @@
 from question_model import Question
-from data import question_data
+from data import QuestionGenerator
 from quiz_brain import QuizBrain
 
 question_bank = []
-for question in question_data:
+questions = QuestionGenerator().getQuestions()
+print(questions)
+for question in questions:
     question_text = question["question"]
     question_answer = question["correct_answer"]
     new_question = Question(question_text, question_answer)
