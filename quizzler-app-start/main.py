@@ -1,14 +1,14 @@
 from question_model import Question
 from data import QuestionGenerator
 from quiz_brain import QuizBrain
+from html import unescape
 
 question_bank = []
 questions = QuestionGenerator().getQuestions()
-print(questions)
 for question in questions:
     question_text = question["question"]
     question_answer = question["correct_answer"]
-    new_question = Question(question_text, question_answer)
+    new_question = Question(unescape(question_text), question_answer)
     question_bank.append(new_question)
 
 
