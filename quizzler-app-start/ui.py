@@ -9,12 +9,12 @@ class QuizzlerUI:
         self.quizz = quiz_brain
         self.window = Tk()
         self.window.title("Quizzler")
-        self.window.config(padx=20, pady=20, bg=THEME_COLOR) # add padding to the window
+        self.window.config(padx=20, pady=20, bg=THEME_COLOR)
 
-        self.score_label = Label(text="Score: 0", bg=THEME_COLOR, fg="#fff") # add label for the score "Score: 0"
-        self.score_label.grid(row=0, column=1) # use a grid, put the score in the second column
+        self.score_label = Label(text="Score: 0", bg=THEME_COLOR, fg="#fff")
+        self.score_label.grid(row=0, column=1)
 
-        self.canvas = Canvas(width=300, height=250, highlightthickness=0, background="#fff") # cranvas height 250/ width 300
+        self.canvas = Canvas(width=300, height=250, highlightthickness=0, background="#fff")
         self.question_text = self.canvas.create_text(150, 125, width=280, text="Questions will be there", font=("Arial", 20, "italic"))
         self.canvas.grid(row=1, columnspan=2, pady=50)
 
@@ -35,24 +35,28 @@ class QuizzlerUI:
         self.window.mainloop()
 
     def get_next_question(self):
-        self.quizz.next_question()
-        self.canvas.itemconfig(self.question_text, text=self.quizz.current_question.text)
+        if not self.quizz.still_has_questions():
+            self.gameOver()
+        else:
+            self.quizz.next_question()
+            self.canvas.itemconfig(self.question_text, text=self.quizz.current_question.text)
+        self.canvas.config(bg='white')
 
     def checkerTrue(self):
-        self.quizz.check_answer("true")
+        self.giveFeedBack(self.quizz.check_answer("true"))
         self.score_label.config(text=f"Score: {self.quizz.score}")
-        if self.quizz.still_has_questions():
-            self.get_next_question()
-        else:
-            self.gameOver()
 
     def checkerFalse(self):
-        self.quizz.check_answer("false")
+        self.giveFeedBack(self.quizz.check_answer("false"))
         self.score_label.config(text=f"Score: {self.quizz.score}")
+
+    def giveFeedBack(self, result: bool):
         if self.quizz.still_has_questions():
-            self.get_next_question()
-        else:
-            self.gameOver()
+            if result:
+                self.canvas.config(bg='green')
+            else:
+                self.canvas.config(bg='red')
+            self.canvas.after(300, self.get_next_question)
 
     def gameOver(self):
         self.canvas.itemconfig(self.question_text, text=f"{self.quizz.score}/10")
