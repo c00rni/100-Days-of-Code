@@ -1,8 +1,7 @@
-# TODO: GET latitude and longitude
-# TODO: Request forecast API
-# TODO: print status code
-# TODO: print the response to the console
-# TODO: print the weather description
+# TODO: Detect when it will rain or snow in the day
+# TODO: Send a notification SMS of the weather on rainy on snowy days
+# https://openweathermap.org/weather-conditions
+# https://pro.openweathermap.org/data/2.5/forecast/hourly?q={city name}&appid={API key}
 
 import os
 from dotenv import load_dotenv
@@ -12,11 +11,21 @@ load_dotenv("../.env")
 
 OPEN_WEATHER_API_KEY = os.environ.get("OPEN_WEATHER_API")
 
-payload = {'q': "nyon", 'appid': OPEN_WEATHER_API_KEY}
-r = get("https://api.openweathermap.org/data/2.5/weather", params=payload)
+payload = {'q': "briançon", 'appid': OPEN_WEATHER_API_KEY, "cnt": 4}
+r = get("https://api.openweathermap.org/data/2.5/forecast", params=payload)
+rain = False
+snow = False
 if r.status_code == 200:
-    description = r.json()["weather"][0]["description"]
-    cloudiness_pourcentage = r.json()["clouds"]["all"]
-    print(f"Decription: {description}, Cloud: {cloudiness_pourcentage}%.")
+    weather_states = [weather_forcast["weather"][0]["id"] for weather_forcast in r.json()['list']]
+    for states in weather_states:
+        if not rain and (states > 500 and states < 532 or states > 615 and states < 623):
+            rain = True
+        if not snow and (states > 600 and states < 623):
+            snow = True
+    if snow and not rain:
+        print("It's snowing today ❄️⛄, take some gloves.")
+    elif rain and snow or rain and not snow:
+        print("It's going to rain today. Remenber to bring an ☔")
+
 else:
     print("Request to openweathermap API failed.")
