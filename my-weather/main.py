@@ -6,12 +6,18 @@
 import os
 from dotenv import load_dotenv
 from requests import get
+from notifier import SMSNotifier
 
 load_dotenv("../.env")
 
 OPEN_WEATHER_API_KEY = os.environ.get("OPEN_WEATHER_API")
+TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")
+TWILIO_NUMBER = os.environ.get("TWILIO_NUMBER")
+PERSONAL_NUMBER = os.environ.get("PERSONAL_NUMBER")
+CITY_NAME = "CHAMGE THIS"
 
-payload = {'q': "briançon", 'appid': OPEN_WEATHER_API_KEY, "cnt": 4}
+payload = {'q': CITY_NAME, 'appid': OPEN_WEATHER_API_KEY, "cnt": 4}
 r = get("https://api.openweathermap.org/data/2.5/forecast", params=payload)
 rain = False
 snow = False
@@ -22,10 +28,12 @@ if r.status_code == 200:
             rain = True
         if not snow and (states > 600 and states < 623):
             snow = True
+    sms_notifier = SMSNotifier(sender_number=TWILIO_NUMBER, receiver_number=PERSONAL_NUMBER, username=TWILIO_ACCOUNT_SID, password=TWILIO_AUTH_TOKEN)
     if snow and not rain:
-        print("It's snowing today ❄️⛄, take some gloves.")
+        sms_notifier.sendMessage("It's snowing today ❄️⛄, take some gloves.")
+
     elif rain and snow or rain and not snow:
-        print("It's going to rain today. Remenber to bring an ☔")
+        sms_notifier.sendMessage("It's going to rain today. Remenber to bring an ☔")
 
 else:
     print("Request to openweathermap API failed.")
