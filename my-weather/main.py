@@ -15,7 +15,7 @@ TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
 TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")
 TWILIO_NUMBER = os.environ.get("TWILIO_NUMBER")
 PERSONAL_NUMBER = os.environ.get("PERSONAL_NUMBER")
-CITY_NAME = "CHAMGE THIS"
+CITY_NAME = "CHANGE THIS"
 
 payload = {'q': CITY_NAME, 'appid': OPEN_WEATHER_API_KEY, "cnt": 4}
 r = get("https://api.openweathermap.org/data/2.5/forecast", params=payload)
