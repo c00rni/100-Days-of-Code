@@ -2,6 +2,7 @@ from requests import get, post, put
 from random import choice
 from re import fullmatch
 from dotenv import load_dotenv
+from datetime import datetime
 import os
 
 load_dotenv("../.env")
@@ -23,7 +24,7 @@ class HabitTracker:
         self._username = username
         self._token = token
 
-    def createUser(self, username, agree_terms="yes", not_minor="yes") -> None:
+    def createUser(self, username:str, agree_terms:str="yes", not_minor:str="yes") -> None:
         if not fullmatch(pattern="[a-z][a-z0-9-]{1,32}", string=username):
             raise ValueError("The username must be in lower case and digist only")
         
@@ -41,7 +42,7 @@ class HabitTracker:
         print(request.json()['message'])
 
     
-    def _createToken(self, token_lenght) -> str:
+    def _createToken(self, token_lenght:int) -> str:
         letter = list("abcdefghijklmnopqrstuvwsyz0123456789")
         digits = list()
         token = ""
@@ -54,8 +55,8 @@ class HabitTracker:
         if self._username:
             print(f"Profile page: https://pixe.la/@{self._username}")
     
-    def createGraph(self, name, unit, type="int", color="shibafu") -> None:
-        if not self._token:
+    def createGraph(self, name:str, unit:str, type:str="int", color:str="shibafu") -> None:
+        if not self._token or not self._username:
             raise ValueError("The token must be provide.")
         type = type.lower()
         if type not in ["int", "float"]:
@@ -76,6 +77,20 @@ class HabitTracker:
         request = post(f"https://pixe.la/v1/users/{self._username}/graphs", headers=headers, json=payload)
         print(f"{request.json()['message']} Graph id: {id}")
 
+    def recordPixel(self, grapheh_id:str, date:datetime, quantity:int) -> None:
+        if not self._token or not self._username:
+            raise ValueError("The token must be provide.")
+        payload = {
+            "date":date.strftime("%Y%m%d"),
+            "quantity":str(quantity)
+        }
+        headers = {"X-USER-TOKEN": self._token}
+        request = post(f"https://pixe.la/v1/users/{self._username}/graphs/{grapheh_id}", headers=headers, json=payload)
+        if request.status_code != 200:
+            raise ValueError(request.json()['message'])
+        print(f"{request.json()['message']} Pixel recorded.")
+
 
 tracker = HabitTracker("corni", PIXELA_TOKEN)
-tracker.createGraph("Lecture", "pages", "int")
+date = datetime.today()
+tracker.recordPixel("ugksbf1vhnisiitz", date,3)
