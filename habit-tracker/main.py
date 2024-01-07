@@ -13,8 +13,8 @@ from re import fullmatch
 
 class HabitTracker:
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, username="") -> None:
+        self._username = username
 
     def createUser(self, username, agree_terms="yes", not_minor="yes") -> None:
         if not fullmatch(pattern="[a-z][a-z0-9-]{1,32}", string=username):
@@ -43,8 +43,10 @@ class HabitTracker:
             token += choice(digits+letter) 
         return token
 
+    def getProfile(self) -> None:
+        if self._username:
+            print(f"Profile page: https://pixe.la/@{self._username}")
 
 
-tracker = HabitTracker()
-
-tracker.createUser("corni")
+tracker = HabitTracker("corni")
+tracker.getProfile()
