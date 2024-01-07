@@ -37,7 +37,7 @@ try:
         r = get("https://newsapi.org/v2/top-headlines", params=payload)
         articles = r.json()['articles']
         sign = "🔺" if value_difference > 0 else "🔻"
-        message = f"\n\n{sign} change_pourcentage %\n"
+        message = f"\n\n{COMPANY_NAME}: {sign} change_pourcentage %\n"
         sms_notifier = SMSNotifier(sender_number=TWILIO_NUMBER, receiver_number=PERSONAL_NUMBER, username=TWILIO_ACCOUNT_SID, password=TWILIO_AUTH_TOKEN)
         
         for article in articles:
