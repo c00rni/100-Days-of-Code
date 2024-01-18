@@ -33,7 +33,7 @@ result = False
 
 mail_body = ""
 mail_subject = "[Cheap Flight Bot] - Cheap flight opportunities"
-mail_receipients = ["gmigan.a@gmail.com"]
+mail_receipients = ["gmigan.a@gmail.com","cpouvani@gmail.com"]
 
 for row in sheet_data:
     flight = FlightData(departure_city_name="Geneva",
