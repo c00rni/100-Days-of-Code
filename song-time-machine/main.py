@@ -1,22 +1,29 @@
 from datetime import datetime
-from requests import get
-from bs4 import BeautifulSoup
+from billboard import Billboard
+from spotify import Spotify
+
+from dotenv import load_dotenv
+import os
+
+load_dotenv("../.env")
+
+SPOTIPY_CLIENT_ID = os.environ.get("SPOTIPY_CLIENT_ID")
+SPOTIPY_CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET")
+SPOTIPY_USERNAME = os.environ.get("SPOTIPY_USERNAME")
 
 date = None
 date_format = "%Y-%m-%d"
-"""while not date:
+while not date:
     try:
         user_text_input = input(f"Which yeaf do you want to travel to ? type the date in this format YYYY-MM-DD: ")
         date = datetime.strptime(user_text_input, date_format)
     except ValueError:
-        pass"""
+        pass
+billboard = Billboard()
+songs = billboard.getTop100(date)
+print(songs)
 
-date = datetime(year=1990, month=2, day=1)
-request = get(f"https://www.billboard.com/charts/hot-100/{date.strftime(date_format)}/")
-soup = BeautifulSoup(request.text, 'html.parser')
-rows = soup.find_all("div", class_="o-chart-results-list-row-container")
-for row in rows:
-    song_li = row.ul.find("li", class_="lrv-u-width-100p").ul.find_all("li")[0]
-    print(song_li.h3.contents[0].strip())
-    print(song_li.span.contents[0].strip())
-    print("#############")
+sp = Spotify(username=SPOTIPY_USERNAME, client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET)
+profil_dict = sp.getUserProfile()
+for key, value in profil_dict.items():
+    print(f"{key}: {value}")
