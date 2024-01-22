@@ -21,9 +21,10 @@ while not date:
         pass
 billboard = Billboard()
 songs = billboard.getTop100(date)
-print(songs)
 
 sp = Spotify(username=SPOTIPY_USERNAME, client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET)
-profil_dict = sp.getUserProfile()
-for key, value in profil_dict.items():
-    print(f"{key}: {value}")
+for song in songs:
+    result = sp.getPreview(f"{song['artist']} {song['title']}")
+    preview_uri = result['tracks']['items'][0]['preview_url']
+    if preview_uri:
+        print(preview_uri)
